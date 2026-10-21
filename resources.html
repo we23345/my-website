@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html data-page-node-id="9PuKpadpoAWZRiP75heZqB" class="no-js" lang="zh-CN">
+<head data-page-node-id="83sAsueB4ArEn8nPlVQ4DK">
+<script data-page-node-id="kqqxpQWQx5AHBbomQOTr1Q" src="/page/page_comm/inject.js"></script>
+<meta data-page-node-id="ti8wDlUTbcH6KGJ9AoUGLf" charset="UTF-8">
+<script data-page-node-id="RjdSQB0z7kjLXNEulbECkG" data-pnid-children="9fldK5LVas0lNgehM0gOYv">document.documentElement.className=document.documentElement.className.replace('no-js','js');try{if(!sessionStorage.getItem('chen_pre'))document.documentElement.className+=' pre';}catch(e){document.documentElement.className+=' pre';}</script>
+<meta data-page-node-id="9Yp4xqjT6zU0v6N5E68b6S" content="width=device-width, initial-scale=1.0" name="viewport">
+<title data-page-node-id="hDplye6wiHtOrcdlYw6dkO" data-pnid-children="SILufnxDRYznCCW2vfuDIF">RESOURCES 资源导航 — CHEN'S SPACE</title>
+<link data-page-node-id="IecxxLUjGxYaMNtsjcocK1" href="https://fonts.googleapis.com" rel="preconnect">
+<link data-page-node-id="7OkF1TR1YyCFgXtWJCbttg" crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link data-page-node-id="Ihp79D43OqBikRWfe4n0rP" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style data-page-node-id="YOrWJB9gUcgMV6cdGcvy0v" data-pnid-children="hZHbxyY21EHCKmq25psOBI">
+/* ================= TOKENS ================= */
+:root{
+  --bg:#FFFFFF;--paper:#F9F9F9;--ink:#111111;--accent:#FFDE00;
+  --muted:#A4A4A4;--line:#E3E3E3;--pre-bg:#E3E3E3;
+  --disp:'Jost','Noto Sans SC',sans-serif;
+  --sans:'Instrument Sans','Noto Sans SC',sans-serif;
+  --ease:cubic-bezier(0.76,0,0.24,1);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scrollbar-width:none;-ms-overflow-style:none}
+::-webkit-scrollbar{display:none}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--ink);color:var(--accent)}
+a{color:inherit;text-decoration:none}
+
+/* ================= SHELL ================= */
+#preloader{display:none;position:fixed;inset:0;z-index:900;background:var(--pre-bg);align-items:center;justify-content:center;clip-path:circle(100% at 50% 50%);transition:clip-path 1s var(--ease);cursor:none;pointer-events:none}
+html.pre #preloader{display:flex}
+html.pre #preloader.preloader-hide{clip-path:circle(0px at 50% 50%)}
+.preloader-logo{display:flex;align-items:center;gap:14px;font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;animation:fadeLogo 4s ease-in-out infinite}
+.preloader-logo .sq{width:22px;height:22px;background:var(--ink)}
+@keyframes fadeLogo{0%,100%{opacity:.3}50%{opacity:1}}
+.veil{position:fixed;inset:0;z-index:800;background:var(--accent);transform:translateY(-101%);display:flex;align-items:center;justify-content:center;transition:transform .7s var(--ease);pointer-events:none}
+.veil .veil-mark{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;display:flex;align-items:center;gap:14px}
+.veil .veil-mark .sq{width:20px;height:20px;background:var(--ink)}
+html.js body.loading .veil,html.js body.leaving .veil{transform:translateY(0)}
+html.js body.leaving .veil{transition-duration:.45s}
+.cursor-dot,.cursor-ring{display:none}
+@media (hover:hover) and (pointer:fine){
+  html.js body{cursor:none}
+  html.js a,html.js button{cursor:none}
+  html.js .cursor-dot{display:block;position:fixed;top:0;left:0;width:8px;height:8px;z-index:1000;background:var(--ink);border-radius:50%;pointer-events:none}
+  html.js .cursor-ring{display:block;position:fixed;top:0;left:0;width:34px;height:34px;z-index:999;border:1.5px solid var(--ink);border-radius:50%;pointer-events:none;opacity:.4;transition:width .35s var(--ease-out),height .35s var(--ease-out),opacity .35s,border-color .35s,background-color .35s}
+  html.js body.cursor-hover .cursor-ring{width:56px;height:56px;opacity:1;background:var(--accent)}
+}
+.dot-matrix-bg{position:fixed;inset:-12%;z-index:-2;pointer-events:none;background-image:radial-gradient(circle,rgba(0,0,0,.5) 1.5px,transparent 1.6px);background-size:34px 34px;background-position:center;opacity:.08;animation:dotBreatheA 7.5s ease-in-out infinite}
+.dot-matrix-bg.layer-2{background-image:radial-gradient(circle,rgba(0,0,0,.38) 1.1px,transparent 1.2px);background-size:23px 23px;animation:dotBreatheB 11s ease-in-out infinite}
+@keyframes dotBreatheA{0%,100%{opacity:.08}50%{opacity:.22}}
+@keyframes dotBreatheB{0%,100%{opacity:.04}50%{opacity:.13}}
+.bg-glow{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:soft-light;opacity:.85;background:radial-gradient(circle 420px at 80% 20%,rgba(255,222,0,.6) 0%,rgba(255,222,0,0) 70%),radial-gradient(circle 340px at 15% 85%,rgba(255,222,0,.5) 0%,rgba(255,222,0,0) 70%)}
+.page-marker{position:fixed;right:34px;top:50%;transform:translateY(-50%);z-index:5;font-family:var(--disp);font-weight:800;font-size:clamp(3.4rem,6vw,5.2rem);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--ink);pointer-events:none;user-select:none;animation:breathe 2.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.4;transform:translateY(-50%) scale(1)}50%{opacity:1;transform:translateY(-50%) scale(1.08)}}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 34px;background:linear-gradient(to bottom,rgba(255,255,255,.92),rgba(255,255,255,.75));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em}
+.nav-logo .sq{width:15px;height:15px;background:var(--ink);position:relative}
+.nav-logo .sq::after{content:"";position:absolute;right:-5px;bottom:-5px;width:6px;height:6px;background:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{position:relative;font-family:var(--disp);font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border-radius:999px;transition:background-color .4s var(--ease),color .4s var(--ease)}
+.nav-links a .no{font-size:9px;color:var(--muted);margin-right:5px;transition:color .4s}
+.nav-links a:hover{background:var(--paper)}
+.nav-links a:hover .no{color:var(--ink)}
+.nav-links a.active{background:var(--ink);color:var(--bg)}
+.nav-links a.active .no{color:var(--accent)}
+.st{opacity:0;transform:translateY(30px)}
+body.revealed .st{opacity:1;transform:translateY(0);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:calc(var(--i,0)*90ms + .1s)}
+
+/* ================= PAGE HEAD ================= */
+.page-head{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:150px 34px 40px}
+.page-head .crumb{font-family:var(--disp);font-weight:500;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.page-head .crumb::after{content:"";width:44px;height:1px;background:var(--ink)}
+.page-head h1{font-family:var(--disp);font-weight:800;font-size:clamp(46px,8vw,104px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;margin-top:18px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.page-head h1 .yd{display:inline-block;width:.14em;height:.14em;background:var(--accent);border:1.5px solid var(--ink)}
+.page-head h1 .cn{font-size:clamp(18px,2.4vw,30px);font-weight:500;color:#3a3a3a;letter-spacing:.08em}
+.page-head .sub{margin-top:18px;font-size:14px;line-height:1.8;color:#3a3a3a;max-width:560px}
+
+/* ================= CATEGORY GRID ================= */
+.res-grid{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 34px 90px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.cat{border:1.5px solid var(--ink);background:var(--bg);transition:box-shadow .5s var(--ease),transform .5s var(--ease)}
+.cat:hover{transform:translateY(-5px);box-shadow:8px 8px 0 var(--accent)}
+.cat-head{
+  display:flex;align-items:center;gap:14px;
+  background:var(--ink);color:var(--bg);
+  padding:16px 20px;border-bottom:1.5px solid var(--ink);
+}
+.cat-head .no{
+  font-family:var(--disp);font-weight:800;font-size:20px;color:var(--accent);
+  -webkit-text-stroke:0;
+}
+.cat-head b{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.12em;text-transform:uppercase}
+.cat-head .cn{font-family:var(--disp);font-weight:500;font-size:12px;letter-spacing:.2em;color:#999;text-transform:uppercase}
+.cat-head .cnt{margin-left:auto;font-family:var(--disp);font-weight:500;font-size:10px;letter-spacing:.2em;color:#777}
+.cat-desc{padding:14px 20px;font-size:12.5px;line-height:1.75;color:#3a3a3a;border-bottom:1px solid var(--line)}
+.cat-list a{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;
+  padding:15px 20px;border-bottom:1px solid var(--line);
+  transition:background-color .4s var(--ease),padding-left .4s var(--ease);
+}
+.cat-list a:last-child{border-bottom:none}
+.cat-list a:hover{background:var(--accent);padding-left:28px}
+.cat-list .l-name{font-family:var(--disp);font-weight:600;font-size:14.5px;letter-spacing:.02em}
+.cat-list .l-host{font-family:var(--disp);font-weight:400;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:4px;transition:color .3s}
+.cat-list a:hover .l-host{color:#3a3a3a}
+.cat-list .l-desc{font-size:12px;color:#3a3a3a;margin-top:6px;line-height:1.6}
+.cat-list .l-ar{font-family:var(--disp);font-size:17px;transform:translate(-6px,6px);opacity:0;transition:transform .45s var(--ease),opacity .35s}
+.cat-list a:hover .l-ar{transform:translate(0,0);opacity:1}
+
+/* ================= FOOTER ================= */
+.footer{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:26px 34px;border-top:1.5px solid var(--ink)}
+.footer .f-col{display:flex;align-items:center;gap:22px;flex-wrap:wrap;font-family:var(--disp);font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#3a3a3a}
+.footer .f-col a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2.5px;text-underline-offset:5px}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:900px){
+  .nav{padding:14px 18px}
+  .nav-links{gap:0;overflow-x:auto;max-width:62vw;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{padding:8px 10px;font-size:11px;white-space:nowrap}
+  .nav-links a .no{display:none}
+  .page-head{padding:120px 18px 30px}
+  .res-grid{padding:0 18px 60px;grid-template-columns:1fr}
+  .page-marker{display:none}
+  .footer{padding:22px 18px;justify-content:center;text-align:center}
+  .footer .f-col{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01s!important;transition-duration:.01s!important}
+}
+</style>
+</head>
+<body data-page-node-id="ic5cGGJpMNA2uTOpRBvDTZ" class="loading">
+
+<div data-page-node-id="5p7skcmH4xMz1v5ydYz2t7" id="preloader"><div data-page-node-id="Cl7BfD17GTd9ossQuOmEYC" class="preloader-logo"><span data-page-node-id="BZH5EEVGQ0jsVWXfPfXVAq" class="sq"></span><!--pnid:YdVdQvFMjpPRIgWOEtnXXw-->CHEN&reg;</div></div>
+<div data-page-node-id="dLiqFE3tRsIZJ5CqTX0TlP" class="veil"><span data-page-node-id="BszhSBh4fLB2HM1Ng55xjB" class="veil-mark"><span data-page-node-id="CaQkjwicN9m6XCwEDGD7Ye" class="sq"></span><!--pnid:yXo1tKQtMqZNiZ7BLBORhM-->CHEN&reg;</span></div>
+<div data-page-node-id="IIXJpuSIvTQam4n8A5T5SX" class="cursor-dot" id="cursorDot"></div>
+<div data-page-node-id="67UzzRqKCRoJhjftlz5MxO" class="cursor-ring" id="cursorRing"></div>
+<div data-page-node-id="fxQYHUFSSqshKc5SH6cZoE" class="dot-matrix-bg"></div>
+<div data-page-node-id="QszAArfELt1EcrVZGexWMl" class="dot-matrix-bg layer-2"></div>
+<div data-page-node-id="hC1XQSxzibpB5NwaDojNJA" class="bg-glow"></div>
+<div data-page-node-id="POJgY7WchsIWDua6ectJxw" class="page-marker"><!--pnid:28tsThknRSwK7vOkkgny8h-->04</div>
+
+<header data-page-node-id="gMsFSRH5FPDKMAFuTqNXeo" class="nav">
+  <a data-page-node-id="DneqsZbq1oBsHwNbggFmgH" class="nav-logo" data-nav href="index.html"><span data-page-node-id="HsbYhG60mAVaYUI3dQ7SrF" class="sq"></span><!--pnid:Mg13VafqoFM4Yzf2Z1oaTo-->CHEN&reg;</a>
+  <nav data-page-node-id="huenkEWSWs2Pd2n4tbczrc" class="nav-links">
+    <a data-page-node-id="g4xcVN3uPoQjCRKUEl4Vca" data-nav href="index.html"><span data-page-node-id="hzDzNe3Tlc84JUb3S1za78" class="no"><!--pnid:fzpSGFU5pJlDlGJeKeZLwU-->01</span><!--pnid:goPVgTV9Kham355ZeCSz7Q-->Index</a>
+    <a data-page-node-id="YHuODLBmhzMzTX5S1A8BEz" data-nav href="works.html"><span data-page-node-id="SY2CtSl2TIui627HtZpu6g" class="no"><!--pnid:vt2ORUEKIPNw7INCRWTqX1-->02</span><!--pnid:jHy1n9qxRSv7NTQItNGNrP-->Works</a>
+    <a data-page-node-id="s14wVGJDSwtVSWGAvNK0Vm" data-nav href="fonts.html"><span data-page-node-id="oP7mEB794M5weYQdahaQKy" class="no"><!--pnid:pjRt4dZQZWwajylouGJUkj-->03</span><!--pnid:XurtPXEZOKLhNpDNbvzowB-->Fonts</a>
+    <a data-page-node-id="TxYIq4L1K3TMBKZi7uk5fn" class="active" data-nav href="resources.html"><span data-page-node-id="ya7Ft2WGcjJNGhAJsW69lX" class="no"><!--pnid:fpF11jaYrvlsPik2Dg7heE-->04</span><!--pnid:T9ikrEphiovN3ZqBxzDLHK-->Resources</a>
+    <a data-page-node-id="bTfhuBaLBBT6jZYj0lI0ch" data-nav href="log.html"><span data-page-node-id="ywiWjbn0iuRyQClctVinpK" class="no"><!--pnid:q3YT6vIQPiBMXi45Jkp0sE-->05</span><!--pnid:L4FtTVr1xzTnCTya6VhYJr-->Log</a>
+  </nav>
+</header>
+
+<main data-page-node-id="zAo0wVafiEr7JTskuIPM7U">
+  <section data-page-node-id="qECxSHBoOmi4ijOBWYYHgg" class="page-head">
+    <div data-page-node-id="YIz5XMHgVAXchivAivNKvO" class="crumb st" style="--i:0"><!--pnid:4Wt55vbvkgIu0HdxXzbH7x-->04 / Resources</div>
+    <h1 data-page-node-id="H4aJCs5aQG0KzqPe1Cy8Oc" class="st" style="--i:1"><!--pnid:7DVgIGD31uoYK6TqoDT71d-->Resources<span data-page-node-id="86NCzamugvZIJpk7wilptz" class="yd"></span><span data-page-node-id="IIH407S8gKx76uokZwsTWU" class="cn"><!--pnid:KZxnlnlkjYibmW0x1znad8-->资源导航</span></h1>
+    <p data-page-node-id="ieVnHF8QS2A2jcH57IjKOE" class="sub st" style="--i:2"><!--pnid:dds9w5NAFfHZ6RI3flTOwE-->设计输入源：灵感、工具、规范与长文。输出质量的上限，由输入的质量决定。</p>
+  </section>
+
+  <section data-page-node-id="ELw60d9vkZxz7piFZB3Ium" class="res-grid">
+
+    <div data-page-node-id="lQnUz4QxuhV3sZ9KClSj91" class="cat st" style="--i:3">
+      <div data-page-node-id="p7a0xRi5C8xfybMgnupDQr" class="cat-head"><span data-page-node-id="qnr3Q2H3JmMWObiR1BU4hZ" class="no"><!--pnid:3WktKQ4P7NxpQn4xDYxCAf-->A</span><b data-page-node-id="pyGhfhqHQZNTnK9DwjugAt"><!--pnid:y0uaSmwDRIhw9zyZ3lUQcZ-->Inspiration</b><span data-page-node-id="j2VEE2NATQxLOVDFo3pc0e" class="cn"><!--pnid:9dnd0KA8x8Rg7sTHOlsal0-->灵感</span><span data-page-node-id="0VCWZ0BogPHcfInbgSOnaq" class="cnt"><!--pnid:5HunIS6iG2SN2HEMdyfzSp-->04</span></div>
+      <p data-page-node-id="w7W56gijVzbArTjjZwYxP3" class="cat-desc"><!--pnid:xDA1FUTT8KsJ3lxIN05iXT-->去看真实项目里的决定，而不是效果图里的幻觉。</p>
+      <div data-page-node-id="M2PSlbcIGmTxPZyqod3IVJ" class="cat-list">
+        <a data-page-node-id="VtXJCirZZJJaAqdQFQ4D6W" href="https://fontsinuse.com" rel="noopener" target="_blank">
+          <span data-page-node-id="Qwregfa4HNr7fbFPtGdM7h"><span data-page-node-id="gookl9z9p0BAun74rvVcla" class="l-name"><!--pnid:oEJy0XMCf7kbCoNmFpArlp-->Fonts In Use</span><span data-page-node-id="LeGZc9f1bDosz6spLREtxY" class="l-host"><!--pnid:m4WizPon7vOz3mAnyaWTlV-->fontsinuse.com</span><span data-page-node-id="fHrkHZ62IfCcYpwaC5gR6R" class="l-desc" style="display:block"><!--pnid:G9vffezKDintOZvC6bgNye-->字体在真实项目中的使用档案。</span></span>
+          <span data-page-node-id="IhD9OsgELtzzEqW2imS1fz" class="l-ar"><!--pnid:JA7HiHlcgGk4JXUR8OJohD-->&nearr;</span>
+        </a>
+        <a data-page-node-id="84GBrNr40Ss2pnhAx1rW7Z" href="https://www.siteinspire.com" rel="noopener" target="_blank">
+          <span data-page-node-id="Bm33CAXWTVLHroYR9J1mBC"><span data-page-node-id="hRK1e52VnQONzFqEvlTN4Y" class="l-name"><!--pnid:Wtv5OGQDs5WEoFjvRiCKVT-->SiteInspire</span><span data-page-node-id="cxd6enTcIMN1mvpxkeXxol" class="l-host"><!--pnid:3QW5yt9JAIkExs61ifnUi4-->siteinspire.com</span><span data-page-node-id="yS8ZVznJ2KJAVAUa5Q6mtq" class="l-desc" style="display:block"><!--pnid:KuxKmtwkUTs01E0vv7URLM-->精选网站设计画廊，按风格与结构筛选。</span></span>
+          <span data-page-node-id="9WTXUanQjvWKRXeKmKzvjY" class="l-ar"><!--pnid:rpaporzvkMnsC4NAnbtPMk-->&nearr;</span>
+        </a>
+        <a data-page-node-id="AePSusiFJLxm7ycPmSQJlu" href="https://www.awwwards.com" rel="noopener" target="_blank">
+          <span data-page-node-id="JHuxtOkHY9Lqgizk6ZLA3Y"><span data-page-node-id="egF4UNHAjcBOguLz4x429S" class="l-name"><!--pnid:5jUhx12A6qgBjvJbkOc0sb-->Awwwards</span><span data-page-node-id="AWNBmhXZ5oZ4Zohe3bHVEf" class="l-host"><!--pnid:M2J5EYNTNQkIW21y4ur9IV-->awwwards.com</span><span data-page-node-id="6CKKT1FOhwl0BZWrWkTLsh" class="l-desc" style="display:block"><!--pnid:g3ZolORZeIlZNFQkZ07cdy-->评委打分的网页设计奖，动效风向标。</span></span>
+          <span data-page-node-id="UN2N1OGvldluzBIieku5Ez" class="l-ar"><!--pnid:cRD7MaatKH7ge4eFTNpBSG-->&nearr;</span>
+        </a>
+        <a data-page-node-id="1lOywMqt4x6fXS0392rzcw" href="https://www.behance.net" rel="noopener" target="_blank">
+          <span data-page-node-id="HAAFuZCJfIEWAYXaX2yiub"><span data-page-node-id="QRXrjuFNVjtgepJc9R6PyL" class="l-name"><!--pnid:V5DnLK0KTEc7dsz1dACfVY-->Behance</span><span data-page-node-id="0hedOmHF2aUFJtptLwptaq" class="l-host"><!--pnid:unVOM7dhEQaoBL9JFmW4Ai-->behance.net</span><span data-page-node-id="sIIlzo3peKqIGMefHnO1TA" class="l-desc" style="display:block"><!--pnid:JvR59jsdxvzcECfXoGDAjZ-->项目式的作品集平台，看完整过程。</span></span>
+          <span data-page-node-id="MuSqqKbDNt2DwlIxcKTQ3A" class="l-ar"><!--pnid:WWV3iHDg7pCGFYbhLH3pmI-->&nearr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div data-page-node-id="4wde5DfwD0413a2H0B1hEW" class="cat st" style="--i:4">
+      <div data-page-node-id="XGw49GlBayLeSts1nUoCkg" class="cat-head"><span data-page-node-id="Zs6kTkSZRXIqVpYwxU6jgL" class="no"><!--pnid:ksonyq7RjaFMwxE4A1scPl-->B</span><b data-page-node-id="i5Y5SEBlD4J40eoELantel"><!--pnid:j79POrUWG4J30zosl95KmJ-->Tools</b><span data-page-node-id="PTfgMeZYC4A39etCwIQ4BS" class="cn"><!--pnid:bvAjyDUcsxLTGeNUSHX9Gd-->工具</span><span data-page-node-id="vvDP5705E7kkobepF2joaK" class="cnt"><!--pnid:cp3dNAlSqTwkxGwe530ub0-->04</span></div>
+      <p data-page-node-id="ymz1WrDqjZJEGYluv64eMG" class="cat-desc"><!--pnid:OuW1gIkSwn6D7oIO5kQhFx-->工具不塑造品味，但顺手的工具能省下抱怨的时间。</p>
+      <div data-page-node-id="9UFnV2gDr0QU6Sg2zliNng" class="cat-list">
+        <a data-page-node-id="r80MTW4ny92vtWxBjQw8vG" href="https://www.figma.com" rel="noopener" target="_blank">
+          <span data-page-node-id="kdKS7urYiEvyqoAFUIpD2P"><span data-page-node-id="KYlUevoyNN9ZV12W9Yx908" class="l-name"><!--pnid:p11Acxnk7ezEggr2K5czno-->Figma</span><span data-page-node-id="GzB9zyNnHEMnJ8crqJoBR4" class="l-host"><!--pnid:IWrAAKqTtO0rd4es5TBZNu-->figma.com</span><span data-page-node-id="2SjWD6pHPrmG5l94oRH9W0" class="l-desc" style="display:block"><!--pnid:WdJGqIpBafhA1tODs0hPAf-->界面设计与协作，网格从这里开始。</span></span>
+          <span data-page-node-id="kf8FS0Z2WqREjhJBSyka1B" class="l-ar"><!--pnid:4E60BuLv031ZS8hqQpmTxq-->&nearr;</span>
+        </a>
+        <a data-page-node-id="gnhmGBAAOkPoQtzrUykqz2" href="https://glyphsapp.com" rel="noopener" target="_blank">
+          <span data-page-node-id="Sft0Q1Js98cyIGvDyMtgjr"><span data-page-node-id="GUVBUzTsBnOwNtvpMtefhV" class="l-name"><!--pnid:yMtshWbVCgLCR1E2sJdtCd-->Glyphs</span><span data-page-node-id="HZrFghmOn9rtkF1N11he7d" class="l-host"><!--pnid:WLQIvllx86eNLnOUI7kiA1-->glyphsapp.com</span><span data-page-node-id="stvf2OQDsRDTyaiEE6UJdn" class="l-desc" style="display:block"><!--pnid:84EQzxnt3zjv03NUDT9m5h-->字体设计软件，从字母 i 开始。</span></span>
+          <span data-page-node-id="biQF9NsdJEoMYWVc7RAI3E" class="l-ar"><!--pnid:WgSbb38hZAhKukhDXG2StO-->&nearr;</span>
+        </a>
+        <a data-page-node-id="Do78Z1u07mTKci0zigmUmI" href="https://www.blender.org" rel="noopener" target="_blank">
+          <span data-page-node-id="QJSNno0Rmf7BPDje5MZQCR"><span data-page-node-id="SHtyzhWkQqUZNF3Zxdzgy3" class="l-name"><!--pnid:kbhQ06eG4FiI7NtAhiKWrV-->Blender</span><span data-page-node-id="f5apvlLlB1f6slB1mFv4K8" class="l-host"><!--pnid:JJgCSfg7HuQSAh4p1aZzrS-->blender.org</span><span data-page-node-id="b7dCVKcnrRnmkyN0gVMRFl" class="l-desc" style="display:block"><!--pnid:LURJNrKX2nA5RCImzpjGe7-->三维与动效渲染，免费且认真。</span></span>
+          <span data-page-node-id="RBEQH574dGQPO8gzgwBT6S" class="l-ar"><!--pnid:Hw55ZOjJa5h5mFRmpRJS7F-->&nearr;</span>
+        </a>
+        <a data-page-node-id="XPWWJOgdtTGWGhcwdn8tjy" href="https://rive.app" rel="noopener" target="_blank">
+          <span data-page-node-id="yb2Ju1lT87014K8poeBhvO"><span data-page-node-id="L7rk6grEGRXMLbMfCGWdDL" class="l-name"><!--pnid:UTcv4stIsSqrprctHjp0qv-->Rive</span><span data-page-node-id="rtM1UYYFZp2I4EptDH2Sml" class="l-host"><!--pnid:4BKTtR8vGxm3tdmSXMaGkP-->rive.app</span><span data-page-node-id="lwG2qixlVJSzFTHy0pYy3b" class="l-desc" style="display:block"><!--pnid:QoEJQqxnjosSgdGF6yrwjl-->交互动效与状态机，把缓动做成组件。</span></span>
+          <span data-page-node-id="oWBdEn2J1Lm25PiIhcjB3h" class="l-ar"><!--pnid:dEL2GAWK1xz951pHASDVIK-->&nearr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div data-page-node-id="lSXVeTTSVMzZBz0JSGQPF7" class="cat st" style="--i:5">
+      <div data-page-node-id="2B4P4xN8vLtbc5AMWeRscQ" class="cat-head"><span data-page-node-id="sM9m50amdfPMlOmgcwccnZ" class="no"><!--pnid:Kr83drOxcwW3nVrNFDNl8b-->C</span><b data-page-node-id="Q6FAp9WwujWbBch3V9wed1"><!--pnid:hwyrnlBDVcLwF3OMXouJru-->Standards</b><span data-page-node-id="w939klYKSw88DK5BDirMIx" class="cn"><!--pnid:Txv76JcpFgeOUjAeU9ygR0-->规范</span><span data-page-node-id="DsdMMayHWKaID1pfRLEoFd" class="cnt"><!--pnid:NMz7v41VJtzrGS9ggwAoKY-->04</span></div>
+      <p data-page-node-id="s35sXIPpp1iX4TK8TnTyrj" class="cat-desc"><!--pnid:OEx24ar144VFjf5zNwYzXV-->规范不是束缚，是可以站在上面的肩膀。</p>
+      <div data-page-node-id="uyufYpCer4GVfKK2mEIde9" class="cat-list">
+        <a data-page-node-id="er8n02GYzejFZv3SYmMrtD" href="https://m3.material.io" rel="noopener" target="_blank">
+          <span data-page-node-id="x8umsBw9oo6wbMHuDQomFg"><span data-page-node-id="AConYWIAe8ACLZhJ657JYA" class="l-name"><!--pnid:QQr8Q0ptY1SmYw7dvBzSxZ-->Material Design 3</span><span data-page-node-id="ELBbYkkTau8l79H1AvrLEy" class="l-host"><!--pnid:AajqEmf9XLLdc3PqNXEq3U-->m3.material.io</span><span data-page-node-id="Nj2e0v0i4ujszPpuY7cE0Z" class="l-desc" style="display:block"><!--pnid:DXRLBCNaxSeG2KRKZtWBLr-->Google 设计系统，动态色与排版刻度。</span></span>
+          <span data-page-node-id="OQ5R2IRaeYnUwaz2I94ZOj" class="l-ar"><!--pnid:KLKZ4dJHl2OblUsHrsb9Yf-->&nearr;</span>
+        </a>
+        <a data-page-node-id="sy7zqMsyaWRyfNLeotm8GA" href="https://developer.apple.com/design/human-interface-guidelines/" rel="noopener" target="_blank">
+          <span data-page-node-id="tKy9tOtHPkUy0WuvDd1EGd"><span data-page-node-id="WVYwX9ebPr5sUDGYNAm18E" class="l-name"><!--pnid:wphWtY7VLE56GSgWfA7u58-->Apple HIG</span><span data-page-node-id="RghTD2YcblwVcKsDxXndll" class="l-host"><!--pnid:j0TZlAbadDz2OG8YR78hS3-->developer.apple.com</span><span data-page-node-id="CzgvKnuqH6UbiWq2n9zSFZ" class="l-desc" style="display:block"><!--pnid:FYplb89ZkN8KR9vwTQR4VG-->人机界面指南，克制的美德。</span></span>
+          <span data-page-node-id="Tr6pBcEbNPiNaywaZcV5hu" class="l-ar"><!--pnid:8OPeJOT0QDhK7xSZKr3R8g-->&nearr;</span>
+        </a>
+        <a data-page-node-id="6rg2NzjXHhzhZtRGktiM7z" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noopener" target="_blank">
+          <span data-page-node-id="rp3wKn56Hv6PStRDHaKeaS"><span data-page-node-id="nEmFTvPKfj79MlNxoJu9TZ" class="l-name"><!--pnid:dfujyOkfrY945vwrSvfCbj-->WCAG</span><span data-page-node-id="XPPn9PnmDGWmGN7M4GcONu" class="l-host"><!--pnid:FbP8HaSjy1VeKKHzvSWdxr-->w3.org/WAI</span><span data-page-node-id="DlZNfhtVhD3PvB97xtJuGV" class="l-desc" style="display:block"><!--pnid:5iIiHRRIolnGvl2TJszt27-->无障碍标准：对比度不是审美问题是伦理问题。</span></span>
+          <span data-page-node-id="g1cyC5hFYmwja8wBxNfYcv" class="l-ar"><!--pnid:y8SNXrZ5ZF9YKP0dCEIEs0-->&nearr;</span>
+        </a>
+        <a data-page-node-id="t2kmDBVSlmr2XObWcsSf8h" href="https://fonts.google.com/knowledge" rel="noopener" target="_blank">
+          <span data-page-node-id="E8VepyI0Zz9KwVmB0b8Ql6"><span data-page-node-id="qwFORe4I5SttiuiYd4ykgW" class="l-name"><!--pnid:BKFxl7WguOIDeHODJDyH4U-->Google Fonts Knowledge</span><span data-page-node-id="GjSnUymdq2AIofKdLDg7Sk" class="l-host"><!--pnid:dKkUp5T3db0VLDeNl1jzPG-->fonts.google.com</span><span data-page-node-id="X9zyTm97dVxTt1tZVDSDjE" class="l-desc" style="display:block"><!--pnid:9whlhHRrSAU3PsIUnB4agj-->字体排版知识库，从解剖学到落地的 CSS。</span></span>
+          <span data-page-node-id="PgF1ztROb40tWjfbSu5fee" class="l-ar"><!--pnid:nvLf2MefQCwmGVYiE8GVeo-->&nearr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div data-page-node-id="NUxlo1QA2VkjJqO9kEGxSH" class="cat st" style="--i:6">
+      <div data-page-node-id="14pcUYWNxJ1ms41NYMl6gx" class="cat-head"><span data-page-node-id="ucg2PeNRXPJoOQoYDR4bIl" class="no"><!--pnid:cyLvc1cViPVCwmKPnEGuGL-->D</span><b data-page-node-id="DriHhQdlxH3jmQIRrvw5kl"><!--pnid:ed7pFTTrcro5jpAz5WCQGt-->Reading</b><span data-page-node-id="AphU68S7DDtzVB9WT3pdCm" class="cn"><!--pnid:8GoMVK0HJnD0OAVrHH9an0-->阅读</span><span data-page-node-id="yTEsb1pssPP7dUB3nWOgBj" class="cnt"><!--pnid:4mnxELHDn1vPdCfxSyyLHf-->04</span></div>
+      <p data-page-node-id="sAV4lYAWyOcqjOa2ig3ACt" class="cat-desc"><!--pnid:nQDAR3bW7Wju4WnKFVX1iG-->长文是慢速的输入，也是复利最高的输入。</p>
+      <div data-page-node-id="0A92ulY0qp95WhsWNe0dbY" class="cat-list">
+        <a data-page-node-id="umWYQoVHXX8JeLeRew0MXc" href="https://practicaltypography.com" rel="noopener" target="_blank">
+          <span data-page-node-id="0dBijwKozh2TLAHbUcNxfq"><span data-page-node-id="Sx5gSOsHzm6Mw4AyejVFyw" class="l-name"><!--pnid:Ltv3TL2hhwhHjWb6XrCJKh-->Practical Typography</span><span data-page-node-id="KA9u4FjMsFe31GtIA2awhR" class="l-host"><!--pnid:o2G69hsbnpnxEW3Nx54ld6-->practicaltypography.com</span><span data-page-node-id="CzsBujKZkyLvmviZcFYWAY" class="l-desc" style="display:block"><!--pnid:OUeGcZilBZUKADJ3kDB7Vk-->Butterick 的实用排版：每一条都能今天就用。</span></span>
+          <span data-page-node-id="y2dq655RtlFWTwyHcpIPvw" class="l-ar"><!--pnid:vNmFe5Qe05pbKEu0m9I7Zd-->&nearr;</span>
+        </a>
+        <a data-page-node-id="r7jWaTCfboqhGfWNY4hikq" href="https://www.refactoringui.com" rel="noopener" target="_blank">
+          <span data-page-node-id="zmmR74iaoLPNiOtkD5PqVe"><span data-page-node-id="r3qapipefbojzmJbg4GD0E" class="l-name"><!--pnid:LtNkTGVp6pRhDdvPt3CUBB-->Refactoring UI</span><span data-page-node-id="mbGnBU8ciBOE2zPAAXroKb" class="l-host"><!--pnid:2qbL5h3ZAzs6GEsNWwevsN-->refactoringui.com</span><span data-page-node-id="LHksk8Tm9f1x22rHijsNdS" class="l-desc" style="display:block"><!--pnid:ISeTdnSoHbPB0fuhJi7NeG-->界面速改手册：间距、层级、颜色一次讲清。</span></span>
+          <span data-page-node-id="vkOFVm1BpAUR0ybRAGjHlp" class="l-ar"><!--pnid:OmJTHyT7J22EZZ1j5nsEM2-->&nearr;</span>
+        </a>
+        <a data-page-node-id="b7tw6O8XNHprK7UtSnBVS9" href="https://thinkingwithtype.com" rel="noopener" target="_blank">
+          <span data-page-node-id="0ws0FTCLvIpmNDStv9TH0T"><span data-page-node-id="Wem9FtqbahvWKn4ENPZN4p" class="l-name"><!--pnid:8RTqoQ8TKoge9oBlMN9fSO-->Thinking with Type</span><span data-page-node-id="TCBVcfmjOzfol1OlYAlkuo" class="l-host"><!--pnid:JBC6Z78sfKfKKCGPc6Pooh-->thinkingwithtype.com</span><span data-page-node-id="ZiXLxkjo4G6d1r0JLSXDdO" class="l-desc" style="display:block"><!--pnid:A6A2goWZvMvxBI3JrXbHmO-->Ellen Lupton 的字体思维入门。</span></span>
+          <span data-page-node-id="iPiXBRE6tGrO9deXj4Kf6S" class="l-ar"><!--pnid:Uj5GmLkKsSjE9yuy4LmBjf-->&nearr;</span>
+        </a>
+        <a data-page-node-id="vONCB7bjmy1LZY5JPVLUVi" href="https://en.wikipedia.org/wiki/Grid_system_(graphic_design)" rel="noopener" target="_blank">
+          <span data-page-node-id="OzUJRHnu3aJkHPMH4yX0eu"><span data-page-node-id="B8a07GyYdD3zHsEw0r1uwD" class="l-name"><!--pnid:5uJRHCiq50FvOIINmekyij-->Grid Systems in Graphic Design</span><span data-page-node-id="xp1gtfhDyThTxEZBMrmCWq" class="l-host"><!--pnid:vTfGNA5TaJbdTrkPnne2V1-->M&uuml;ller-Brockmann &middot; 1961</span><span data-page-node-id="onCerF9eQfpAV8k56u8y0L" class="l-desc" style="display:block"><!--pnid:RzbZOkFZk4AzWzWFoL6Py6-->一切的原点：秩序是被度量过的混沌。</span></span>
+          <span data-page-node-id="wmpcKbTkFs8W7Qq91VLyyQ" class="l-ar"><!--pnid:CC2JBm23lFmBwVVrjvtIg0-->&nearr;</span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer data-page-node-id="hPew0BUytrm7cNmIRWq2mm" class="footer">
+  <div data-page-node-id="CeP3tSERYSErbAZt5ll6No" class="f-col"><span data-page-node-id="yUVInfMufrMTklZFKxrxZL"><!--pnid:y0HRCkh9C4Zd5LYxhDdisP-->&copy; 2026 CHEN</span><span data-page-node-id="yUPsvZFUzrzIUW0exMhUcT"><!--pnid:jKv97yfwoNbaUfI2XjQN6G-->SYSTEM 02</span></div>
+  <div data-page-node-id="hxrtbgUb5hqYI7wnGrKbXq" class="f-col">
+    <a data-page-node-id="jkEskhkGDQPxSR1UzDtSa5" href="https://github.com" rel="noopener" target="_blank"><!--pnid:lpafPQj2WRzwB9LehMkMuH-->GitHub &nearr;</a>
+    <a data-page-node-id="M92zoiiCBhKHRMoXKX0nBB" href="https://www.bilibili.com" rel="noopener" target="_blank"><!--pnid:i8kkibmJpR1GJ3Bu7Elre1-->Bilibili &nearr;</a>
+    <a data-page-node-id="hUIYTOmg7jR77BNwwIT7sq" href="https://x.com" rel="noopener" target="_blank"><!--pnid:6gaGRYC8RGNeGCA1bjC2QH-->X / Twitter &nearr;</a>
+  </div>
+  <div data-page-node-id="hBU9SQrLSZBPjBOr1WhzLm" class="f-col"><a data-page-node-id="DgvhA6au6IBK8QOBVxAolm" data-nav href="index.html"><!--pnid:xKEnG6kD3hcN0OKJcEYgBW-->&larr; Back to Index</a></div>
+</footer>
+
+<script data-page-node-id="PURVLO67FSmhmuOTQeTxbh" data-pnid-children="fWO3XR7R8MQeWIwBS75oil">
+(function(){
+'use strict';
+function reveal(){
+  document.body.classList.remove('loading');
+  document.body.classList.add('revealed');
+}
+window.addEventListener('load', function(){
+  var pre = document.getElementById('preloader');
+  if (document.documentElement.classList.contains('pre') && pre) {
+    setTimeout(function(){
+      pre.classList.add('preloader-hide');
+      try{ sessionStorage.setItem('chen_pre','1'); }catch(e){}
+      setTimeout(function(){ document.documentElement.classList.remove('pre'); reveal(); }, 900);
+    }, 1100);
+  } else {
+    document.documentElement.classList.remove('pre');
+    setTimeout(reveal, 120);
+  }
+});
+document.addEventListener('click', function(e){
+  var a = e.target.closest ? e.target.closest('a[data-nav]') : null;
+  if (!a) return;
+  e.preventDefault();
+  document.body.classList.add('leaving');
+  setTimeout(function(){ window.location.href = a.getAttribute('href'); }, 480);
+});
+var dot = document.getElementById('cursorDot');
+var ring = document.getElementById('cursorRing');
+var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+window.addEventListener('mousemove', function(e){ mx = e.clientX; my = e.clientY; });
+document.addEventListener('mouseover', function(e){
+  if (!e.target.closest) return;
+  var hit = e.target.closest('a,button');
+  document.body.classList.toggle('cursor-hover', !!hit);
+});
+(function cursorTick(){
+  rx += (mx - rx) * .18; ry += (my - ry) * .18;
+  if (dot) dot.style.transform = 'translate(' + (mx-4) + 'px,' + (my-4) + 'px)';
+  if (ring) ring.style.transform = 'translate(' + (rx-17) + 'px,' + (ry-17) + 'px)';
+  requestAnimationFrame(cursorTick);
+})();
+})();
+</script>
+</body>
+</html>
