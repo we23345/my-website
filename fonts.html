@@ -2,12 +2,12 @@
 <html data-page-node-id="nYOJdnWu8ZZyfHiFkrrdMZ" class="no-js" lang="zh-CN">
 <head data-page-node-id="UvE2v4RX8f2VY1qWaDmcv8">
 <meta data-page-node-id="EA15i3opNkRr4Hnn3ng8b7" charset="UTF-8">
-<script data-page-node-id="O2kXCRGP1AQzWh7XM5UOJa" data-pnid-children="IsnCxKUfnE5mKbG5j5nhQx">document.documentElement.className=document.documentElement.className.replace('no-js','js');try{if(!sessionStorage.getItem('chen_pre'))document.documentElement.className+=' pre';}catch(e){document.documentElement.className+=' pre';}</script>
+<script data-page-node-id="O2kXCRGP1AQzWh7XM5UOJa" data-pnid-children="IsnCxKUfnE5mKbG5j5nhQx">document.documentElement.className=document.documentElement.className.replace('no-js','js');try{if(!document.prerendering&&!sessionStorage.getItem('chen_pre'))document.documentElement.className+=' pre';}catch(e){document.documentElement.className+=' pre';}</script>
 <script type="speculationrules">
 {
   "prerender": [{
     "where": { "href_matches": "/*.html" },
-    "eagerness": "moderate"
+    "eagerness": "eager"
   }]
 }
 </script>
@@ -274,12 +274,43 @@ window.addEventListener('load', function(){
     setTimeout(reveal, 120);
   }
 });
-document.addEventListener('click', function(e){
+/* ---------- View Transition：新页面首帧前准备 ---------- */
+window.addEventListener('pagereveal', function (e) {
+  var html = document.documentElement;
+  html.classList.remove('pre');
+  document.body.classList.remove('loading', 'leaving');
+  document.body.classList.add('revealed');
+  if (!e.viewTransition) return;
+  /* 转场到达：内容直接以最终状态入镜，避免快照里出现 opacity:0 的空白 */
+  document.body.classList.add('vt-arrive');
+  setTimeout(function () { document.body.classList.remove('vt-arrive'); }, 900);
+  var type = '';
+  try { type = navigation.activation.navigationType; } catch (err) {}
+  html.dataset.nav = (type === 'traverse') ? 'back' : 'fwd';
+});
+
+/* ---------- 站内导航：遮罩滑下 → 跳转 → View Transition 抬起 ---------- */
+document.addEventListener('click', function (e) {
+  if (e.defaultPrevented || e.button !== 0) return;
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
   var a = e.target.closest ? e.target.closest('a[data-nav]') : null;
   if (!a) return;
+  if (a.target && a.target !== '_self') return;
+
+  var href = a.getAttribute('href');
+  if (!href) return;
+
   e.preventDefault();
+
+  /* 黄色遮罩滑下（0.45s），滑完再跳转。
+     这段不再有白屏：View Transition 会把这张黄色快照冻结到新页面就绪。 */
   document.body.classList.add('leaving');
-  setTimeout(function(){ window.location.href = a.getAttribute('href'); }, 480);
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function () {
+    window.location.href = href;
+  }, reduce ? 0 : 500);
 });
 var dot = document.getElementById('cursorDot');
 var ring = document.getElementById('cursorRing');
