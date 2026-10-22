@@ -1,0 +1,26 @@
+/* ==========================================================
+   site.css — 全站共享样式
+   只放跨页面通用的东西：转场、tokens、导航、光标
+   ========================================================== */
+
+/* ---------- 跨文档 View Transition ---------- */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) {
+  animation: page-out .45s cubic-bezier(.76, 0, .24, 1) both;
+}
+::view-transition-new(root) {
+  animation: page-in .55s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes page-out { to   { opacity: 0; transform: translateY(-16px) scale(.99); } }
+@keyframes page-in  { from { opacity: 0; transform: translateY(16px)  scale(.99); } }
+
+/* 后退时反向播 */
+html[data-nav="back"] ::view-transition-new(root) { animation-name: page-in-back; }
+@keyframes page-in-back { from { opacity: 0; transform: translateY(-16px) scale(.99); } }
+
+/* 尊重系统「减少动态效果」 */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
