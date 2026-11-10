@@ -16,18 +16,19 @@
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=2">
 <style>
 /* ================= INDEX INTERACTIVE FIELD ================= */
-.dot-matrix-bg{opacity:.04}
+.dot-matrix-bg{display:none}
 .bg-glow{
-  opacity:.85;
+  z-index:0;
+  opacity:.5;
   background:
-    radial-gradient(circle 460px at var(--glow-x) var(--glow-y),rgba(255,222,0,.6) 0%,rgba(255,222,0,.22) 38%,rgba(255,222,0,0) 72%),
-    radial-gradient(circle 340px at var(--glow-x2) var(--glow-y2),rgba(255,222,0,.45) 0%,rgba(255,222,0,.15) 38%,rgba(255,222,0,0) 72%);
+    radial-gradient(circle 460px at var(--glow-x) var(--glow-y),rgba(255,222,0,.55) 0%,rgba(255,222,0,.18) 38%,rgba(255,222,0,0) 72%),
+    radial-gradient(circle 340px at var(--glow-x2) var(--glow-y2),rgba(255,222,0,.4) 0%,rgba(255,222,0,.12) 38%,rgba(255,222,0,0) 72%);
 }
 #fieldCanvas{
-  position:fixed;inset:0;width:100%;height:100%;display:block;z-index:-1;
+  position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1;
   pointer-events:none;
 }
 
@@ -558,8 +559,8 @@ function physicsTick(){
    ========================================================== */
 var cv = document.getElementById('fieldCanvas');
 var particles = [];
-var SPACING = 36;
-var RADIUS = 175;
+var SPACING = 34;
+var RADIUS = 195;
 var RADIUS_SQ = RADIUS * RADIUS;
 
 function buildField(){
@@ -573,7 +574,7 @@ function buildField(){
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   particles = [];
-  var step = w < 700 ? 44 : SPACING;
+  var step = w < 700 ? 42 : SPACING;
   var cols = Math.ceil(w / step) + 1;
   var rows = Math.ceil(h / step) + 1;
   var offX = (w - (cols - 1) * step) * 0.5;
@@ -583,7 +584,7 @@ function buildField(){
     for (var c = 0; c < cols; c++) {
       var ox = offX + c * step;
       var oy = offY + r * step;
-      var isAccent = ((r * 7 + c * 13) % 19 === 0);
+      var isAccent = ((r * 7 + c * 13) % 15 === 0);
       particles.push({
         ox: ox, oy: oy,
         x: ox, y: oy,
@@ -596,7 +597,7 @@ function buildField(){
 }
 
 function triggerShockwave(sx, sy){
-  var shockR = 260;
+  var shockR = 290;
   var shockRSq = shockR * shockR;
   for (var i = 0; i < particles.length; i++) {
     var p = particles[i];
@@ -606,7 +607,7 @@ function triggerShockwave(sx, sy){
     if (dSq < shockRSq && dSq > 0.01) {
       var dist = Math.sqrt(dSq);
       var f = (1 - dist / shockR);
-      var push = f * f * 22;
+      var push = f * f * 26;
       p.vx += (dx / dist) * push;
       p.vy += (dy / dist) * push;
     }
@@ -624,13 +625,13 @@ if (cv && cv.getContext) {
       var h = window.innerHeight;
       cx.clearRect(0, 0, w, h);
 
-      var time = t * 0.0014;
+      var time = t * 0.0016;
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
 
         /* 1. 环境微重力呼吸漂浮目标点 */
-        var floatX = p.ox + Math.sin(time + p.phase) * 3.2;
-        var floatY = p.oy + Math.cos(time * 0.85 + p.phase) * 3.2;
+        var floatX = p.ox + Math.sin(time + p.phase) * 3.8;
+        var floatY = p.oy + Math.cos(time * 0.85 + p.phase) * 3.8;
 
         /* 2. 鼠标反重力排斥场 + 动量拖拽 */
         var energy = 0;
@@ -647,10 +648,10 @@ if (cv && cv.getContext) {
             /* 径向反重力推开 + 微弱切向旋转感 + 鼠标速度惯性带动 */
             var nx = dx / dist;
             var ny = dy / dist;
-            var repulse = easeF * 5.8;
-            var swirl = easeF * 0.9;
-            p.vx += nx * repulse - ny * swirl + mvx * easeF * 0.08;
-            p.vy += ny * repulse + nx * swirl + mvy * easeF * 0.08;
+            var repulse = easeF * 7.2;
+            var swirl = easeF * 1.2;
+            p.vx += nx * repulse - ny * swirl + mvx * easeF * 0.1;
+            p.vy += ny * repulse + nx * swirl + mvy * easeF * 0.1;
           }
         }
 
@@ -662,36 +663,49 @@ if (cv && cv.getContext) {
         p.x += p.vx;
         p.y += p.vy;
 
-        /* 4. 绘制粒子：静止时是精致圆点，受力高速运动时拉伸成指向位移方向的矢量胶囊 */
+        /* 4. 绘制粒子：静止时是清晰圆点，受力高速运动时拉伸成指向位移方向的矢量胶囊 */
         var dispX = p.x - floatX;
         var dispY = p.y - floatY;
         var disp = Math.sqrt(dispX * dispX + dispY * dispY);
 
-        if (disp > 2.2 || energy > 0.15) {
+        if (disp > 1.8 || energy > 0.12) {
           var angle = Math.atan2(dispY, dispX);
-          var len = Math.min(18, 2.5 + disp * 0.38);
+          var len = Math.min(22, 3.5 + disp * 0.45);
           cx.save();
           cx.translate(p.x, p.y);
           cx.rotate(angle);
           cx.beginPath();
           cx.moveTo(-len * 0.5, 0);
           cx.lineTo(len * 0.5, 0);
-          if (energy > 0.35 || p.accent) {
+          if (energy > 0.32 || p.accent) {
+            cx.strokeStyle = '#111111';
+            cx.lineWidth = 4.6;
+            cx.lineCap = 'round';
+            cx.stroke();
             cx.strokeStyle = '#FFDE00';
-            cx.lineWidth = 3.2;
+            cx.lineWidth = 2.8;
+            cx.stroke();
           } else {
-            cx.strokeStyle = 'rgba(17,17,17,' + Math.min(0.75, 0.22 + energy * 0.5) + ')';
-            cx.lineWidth = 2;
+            cx.strokeStyle = 'rgba(17,17,17,' + Math.min(0.85, 0.32 + energy * 0.55) + ')';
+            cx.lineWidth = 2.4;
+            cx.lineCap = 'round';
+            cx.stroke();
           }
-          cx.lineCap = 'round';
-          cx.stroke();
           cx.restore();
         } else {
           cx.beginPath();
-          var r = p.accent ? 2.2 : 1.45;
+          var r = p.accent ? 2.6 : 1.7;
           cx.arc(p.x, p.y, r, 0, Math.PI * 2);
-          cx.fillStyle = p.accent ? 'rgba(255,222,0,0.9)' : 'rgba(17,17,17,0.2)';
-          cx.fill();
+          if (p.accent) {
+            cx.fillStyle = '#FFDE00';
+            cx.fill();
+            cx.lineWidth = 1;
+            cx.strokeStyle = 'rgba(17,17,17,0.65)';
+            cx.stroke();
+          } else {
+            cx.fillStyle = 'rgba(17,17,17,0.28)';
+            cx.fill();
+          }
         }
       }
     }
