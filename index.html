@@ -552,15 +552,18 @@ function physicsTick(){
 }
 
 /* ==========================================================
-   Google Antigravity 风格互动反重力粒子矩阵背景 (fieldCanvas)
-   - 全屏自适应网格粒子，平时随正弦重力波轻柔呼吸漂浮
-   - 鼠标掠过时：推力场 + 切向涡流 + 速度拖拽，推开周围粒子并拉伸成动态胶囊矢量线
-   - 靠近鼠标高能区的粒子亮起 #FFDE00 强调色，松开后按胡克定律弹簧回弹归位
+   SYSTEM 02 — 科幻工业平面风格：弹性工程网格与十字准星遥测场 (fieldCanvas)
+   - 告别密集点阵：采用 128px 大跨度瑞士建筑网格（全屏仅约 70 个工程节点）
+   - 弹性张力网格线：1px 极细工程结构线随鼠标引力场平滑弯曲回弹
+   - 工业 CAD 节点：静止时为克制的 4px 十字准星 (+)，靠近鼠标时显现位移矢量线、
+     旋转准星与 #FFDE00 工业方芯片，最近节点实时标注微型工程坐标参数
    ========================================================== */
 var cv = document.getElementById('fieldCanvas');
-var particles = [];
-var SPACING = 34;
-var RADIUS = 195;
+var nodes = [];
+var pulses = [];
+var gridCols = 0, gridRows = 0;
+var SPACING = 128;
+var RADIUS = 240;
 var RADIUS_SQ = RADIUS * RADIUS;
 
 function buildField(){
@@ -573,45 +576,50 @@ function buildField(){
   var ctx = cv.getContext('2d');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  particles = [];
-  var step = w < 700 ? 42 : SPACING;
-  var cols = Math.ceil(w / step) + 1;
-  var rows = Math.ceil(h / step) + 1;
-  var offX = (w - (cols - 1) * step) * 0.5;
-  var offY = (h - (rows - 1) * step) * 0.5;
+  nodes = [];
+  var step = w < 700 ? 96 : SPACING;
+  gridCols = Math.ceil(w / step) + 2;
+  gridRows = Math.ceil(h / step) + 2;
+  var offX = (w - (gridCols - 1) * step) * 0.5;
+  var offY = (h - (gridRows - 1) * step) * 0.5;
 
-  for (var r = 0; r < rows; r++) {
-    for (var c = 0; c < cols; c++) {
+  for (var r = 0; r < gridRows; r++) {
+    for (var c = 0; c < gridCols; c++) {
       var ox = offX + c * step;
       var oy = offY + r * step;
-      var isAccent = ((r * 7 + c * 13) % 15 === 0);
-      particles.push({
+      var isKey = ((r * 3 + c * 5) % 7 === 0);
+      nodes.push({
+        r: r, c: c,
         ox: ox, oy: oy,
         x: ox, y: oy,
         vx: 0, vy: 0,
-        phase: (r * 0.35) + (c * 0.25),
-        accent: isAccent
+        angle: 0,
+        energy: 0,
+        phase: (r * 0.5) + (c * 0.4),
+        isKey: isKey,
+        code: 'C' + String(c).padStart(2, '0') + '·R' + String(r).padStart(2, '0')
       });
     }
   }
 }
 
 function triggerShockwave(sx, sy){
-  var shockR = 290;
+  var shockR = 320;
   var shockRSq = shockR * shockR;
-  for (var i = 0; i < particles.length; i++) {
-    var p = particles[i];
-    var dx = p.x - sx;
-    var dy = p.y - sy;
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var dx = n.x - sx;
+    var dy = n.y - sy;
     var dSq = dx * dx + dy * dy;
     if (dSq < shockRSq && dSq > 0.01) {
       var dist = Math.sqrt(dSq);
       var f = (1 - dist / shockR);
-      var push = f * f * 26;
-      p.vx += (dx / dist) * push;
-      p.vy += (dy / dist) * push;
+      var push = f * f * 16;
+      n.vx += (dx / dist) * push;
+      n.vy += (dy / dist) * push;
     }
   }
+  pulses.push({ x: sx, y: sy, size: 12, alpha: 0.95 });
 }
 
 if (cv && cv.getContext) {
@@ -625,88 +633,195 @@ if (cv && cv.getContext) {
       var h = window.innerHeight;
       cx.clearRect(0, 0, w, h);
 
-      var time = t * 0.0016;
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
+      var time = t * 0.001;
+      var closestNode = null;
+      var maxEnergy = 0.32;
 
-        /* 1. 环境微重力呼吸漂浮目标点 */
-        var floatX = p.ox + Math.sin(time + p.phase) * 3.8;
-        var floatY = p.oy + Math.cos(time * 0.85 + p.phase) * 3.8;
+      /* 1. 更新所有工程网格节点的物理坐标 */
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        var floatX = n.ox + Math.sin(time + n.phase) * 1.5;
+        var floatY = n.oy + Math.cos(time * 0.85 + n.phase) * 1.5;
 
-        /* 2. 鼠标反重力排斥场 + 动量拖拽 */
-        var energy = 0;
+        var targetEnergy = 0;
         if (pointerActive) {
-          var dx = p.x - mx;
-          var dy = p.y - my;
+          var dx = n.x - mx;
+          var dy = n.y - my;
           var dSq = dx * dx + dy * dy;
           if (dSq < RADIUS_SQ && dSq > 0.01) {
             var dist = Math.sqrt(dSq);
             var factor = 1 - dist / RADIUS;
             var easeF = factor * factor;
-            energy = factor;
+            targetEnergy = factor;
 
-            /* 径向反重力推开 + 微弱切向旋转感 + 鼠标速度惯性带动 */
+            /* 克制的工业感排斥张力（最大偏移约 22px，保持网格秩序） */
             var nx = dx / dist;
             var ny = dy / dist;
-            var repulse = easeF * 7.2;
-            var swirl = easeF * 1.2;
-            p.vx += nx * repulse - ny * swirl + mvx * easeF * 0.1;
-            p.vy += ny * repulse + nx * swirl + mvy * easeF * 0.1;
+            var repulse = easeF * 3.2;
+            n.vx += nx * repulse + mvx * easeF * 0.04;
+            n.vy += ny * repulse + mvy * easeF * 0.04;
           }
         }
 
-        /* 3. 胡克定律弹簧恢复力 + 阻尼 */
-        p.vx += (floatX - p.x) * 0.075;
-        p.vy += (floatY - p.y) * 0.075;
-        p.vx *= 0.82;
-        p.vy *= 0.82;
-        p.x += p.vx;
-        p.y += p.vy;
+        n.energy += (targetEnergy - n.energy) * 0.14;
+        n.vx += (floatX - n.x) * 0.085;
+        n.vy += (floatY - n.y) * 0.085;
+        n.vx *= 0.80;
+        n.vy *= 0.80;
+        n.x += n.vx;
+        n.y += n.vy;
 
-        /* 4. 绘制粒子：静止时是清晰圆点，受力高速运动时拉伸成指向位移方向的矢量胶囊 */
-        var dispX = p.x - floatX;
-        var dispY = p.y - floatY;
-        var disp = Math.sqrt(dispX * dispX + dispY * dispY);
+        var targetAngle = n.energy > 0.08 ? Math.PI * 0.25 : 0;
+        n.angle += (targetAngle - n.angle) * 0.12;
 
-        if (disp > 1.8 || energy > 0.12) {
-          var angle = Math.atan2(dispY, dispX);
-          var len = Math.min(22, 3.5 + disp * 0.45);
-          cx.save();
-          cx.translate(p.x, p.y);
-          cx.rotate(angle);
-          cx.beginPath();
-          cx.moveTo(-len * 0.5, 0);
-          cx.lineTo(len * 0.5, 0);
-          if (energy > 0.32 || p.accent) {
-            cx.strokeStyle = '#111111';
-            cx.lineWidth = 4.6;
-            cx.lineCap = 'round';
-            cx.stroke();
-            cx.strokeStyle = '#FFDE00';
-            cx.lineWidth = 2.8;
-            cx.stroke();
-          } else {
-            cx.strokeStyle = 'rgba(17,17,17,' + Math.min(0.85, 0.32 + energy * 0.55) + ')';
-            cx.lineWidth = 2.4;
-            cx.lineCap = 'round';
-            cx.stroke();
+        if (n.energy > maxEnergy) {
+          maxEnergy = n.energy;
+          closestNode = n;
+        }
+      }
+
+      /* 2. 绘制 1px 弹性建筑网格线 (Horizontal & Vertical CAD Lines) */
+      cx.beginPath();
+      for (var r = 0; r < gridRows; r++) {
+        for (var c = 0; c < gridCols; c++) {
+          var idx = r * gridCols + c;
+          var cur = nodes[idx];
+          if (c < gridCols - 1) {
+            var right = nodes[idx + 1];
+            cx.moveTo(cur.x, cur.y);
+            cx.lineTo(right.x, right.y);
           }
-          cx.restore();
+          if (r < gridRows - 1) {
+            var down = nodes[idx + gridCols];
+            cx.moveTo(cur.x, cur.y);
+            cx.lineTo(down.x, down.y);
+          }
+        }
+      }
+      cx.strokeStyle = 'rgba(17,17,17,0.055)';
+      cx.lineWidth = 1;
+      cx.stroke();
+
+      /* 3. 高亮鼠标附近的局部张力网格线段 */
+      if (pointerActive) {
+        cx.beginPath();
+        for (var r2 = 0; r2 < gridRows; r2++) {
+          for (var c2 = 0; c2 < gridCols; c2++) {
+            var idx2 = r2 * gridCols + c2;
+            var cur2 = nodes[idx2];
+            if (cur2.energy < 0.08) continue;
+            if (c2 < gridCols - 1) {
+              var right2 = nodes[idx2 + 1];
+              if (right2.energy > 0.05) {
+                cx.moveTo(cur2.x, cur2.y);
+                cx.lineTo(right2.x, right2.y);
+              }
+            }
+            if (r2 < gridRows - 1) {
+              var down2 = nodes[idx2 + gridCols];
+              if (down2.energy > 0.05) {
+                cx.moveTo(cur2.x, cur2.y);
+                cx.lineTo(down2.x, down2.y);
+              }
+            }
+          }
+        }
+        cx.strokeStyle = 'rgba(17,17,17,0.16)';
+        cx.lineWidth = 1;
+        cx.stroke();
+      }
+
+      /* 4. 绘制每个网格交点的工业十字准星 (+) 与基准芯片 */
+      for (var j = 0; j < nodes.length; j++) {
+        var nd = nodes[j];
+        var e = nd.energy;
+        var dispX = nd.x - nd.ox;
+        var dispY = nd.y - nd.oy;
+        var dispSq = dispX * dispX + dispY * dispY;
+
+        /* 若节点发生明显弹性偏移，画出它与原始基准点之间的 1px 测量牵引线 */
+        if (dispSq > 9) {
+          cx.beginPath();
+          cx.moveTo(nd.ox, nd.oy);
+          cx.lineTo(nd.x, nd.y);
+          cx.strokeStyle = 'rgba(17,17,17,0.22)';
+          cx.lineWidth = 1;
+          cx.stroke();
+
+          /* 原始锚点留一个极小的基准点 */
+          cx.fillStyle = 'rgba(17,17,17,0.2)';
+          cx.fillRect(nd.ox - 1, nd.oy - 1, 2, 2);
+        }
+
+        cx.save();
+        cx.translate(nd.x, nd.y);
+        cx.rotate(nd.angle);
+
+        if (e > 0.38 || (nd.isKey && e > 0.15)) {
+          /* 激活态工业方块芯片（黄芯黑框，呼应全站 SYSTEM 02 语言） */
+          var sq = 6 + e * 2.5;
+          var half = sq * 0.5;
+          cx.fillStyle = '#FFDE00';
+          cx.fillRect(-half, -half, sq, sq);
+          cx.strokeStyle = '#111111';
+          cx.lineWidth = 1.25;
+          cx.strokeRect(-half, -half, sq, sq);
         } else {
+          /* 精密工业十字准星 (+) */
+          var arm = 3.5 + e * 4;
           cx.beginPath();
-          var r = p.accent ? 2.6 : 1.7;
-          cx.arc(p.x, p.y, r, 0, Math.PI * 2);
-          if (p.accent) {
-            cx.fillStyle = '#FFDE00';
-            cx.fill();
-            cx.lineWidth = 1;
-            cx.strokeStyle = 'rgba(17,17,17,0.65)';
-            cx.stroke();
-          } else {
-            cx.fillStyle = 'rgba(17,17,17,0.28)';
-            cx.fill();
-          }
+          cx.moveTo(-arm, 0);
+          cx.lineTo(arm, 0);
+          cx.moveTo(0, -arm);
+          cx.lineTo(0, arm);
+          cx.strokeStyle = 'rgba(17,17,17,' + (0.2 + e * 0.55).toFixed(2) + ')';
+          cx.lineWidth = e > 0.15 ? 1.3 : 1;
+          cx.stroke();
         }
+        cx.restore();
+      }
+
+      /* 5. 距离鼠标最近的高能节点：绘制工业取景角标与微型工程参数 */
+      if (closestNode && pointerActive) {
+        var cn = closestNode;
+        var bSize = 13;
+        var bLen = 4;
+        cx.strokeStyle = '#111111';
+        cx.lineWidth = 1.2;
+        cx.beginPath();
+        /* 左上与右下取景折角 [ ] */
+        cx.moveTo(cn.x - bSize, cn.y - bSize + bLen);
+        cx.lineTo(cn.x - bSize, cn.y - bSize);
+        cx.lineTo(cn.x - bSize + bLen, cn.y - bSize);
+        cx.moveTo(cn.x + bSize - bLen, cn.y + bSize);
+        cx.lineTo(cn.x + bSize, cn.y + bSize);
+        cx.lineTo(cn.x + bSize, cn.y + bSize - bLen);
+        cx.stroke();
+
+        cx.font = '600 9px Jost, monospace';
+        cx.fillStyle = 'rgba(17,17,17,0.65)';
+        cx.fillText(cn.code, cn.x + 16, cn.y + 3);
+      }
+
+      /* 6. 点击触发的工业几何扫描框脉冲 */
+      for (var k = pulses.length - 1; k >= 0; k--) {
+        var pl = pulses[k];
+        pl.size += (220 - pl.size) * 0.12;
+        pl.alpha *= 0.91;
+        if (pl.alpha < 0.03) {
+          pulses.splice(k, 1);
+          continue;
+        }
+        var hs = pl.size * 0.5;
+        cx.save();
+        cx.translate(pl.x, pl.y);
+        cx.strokeStyle = 'rgba(255,222,0,' + pl.alpha.toFixed(2) + ')';
+        cx.lineWidth = 2;
+        cx.strokeRect(-hs, -hs, pl.size, pl.size);
+        cx.strokeStyle = 'rgba(17,17,17,' + (pl.alpha * 0.7).toFixed(2) + ')';
+        cx.lineWidth = 1;
+        cx.strokeRect(-hs - 3, -hs - 3, pl.size + 6, pl.size + 6);
+        cx.restore();
       }
     }
     if (!reduceMotion) requestAnimationFrame(renderField);
