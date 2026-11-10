@@ -1,52 +1,561 @@
 /* ==========================================================
-   site.css — 全站共享样式
-   目前只放跨页面的转场规则；页面自身样式仍在内联 <style> 里。
-
-   转场原理：
-   1. 点击站内链接后，原有 .leaving 类让黄色遮罩滑下盖住页面；
-   2. 浏览器冻结这张「整屏黄色」的快照，等新页面加载完成
-      （所以加载期间看到的是黄色，而不是白屏）；
-   3. View Transition 让旧快照整屏上移，露出新页面。
+   site.css — 全站共享样式与 Google M3 Expressive 物理弹性动效系统
    ========================================================== */
 
 /* ---------- 开启跨文档 View Transition ---------- */
 @view-transition { navigation: auto; }
 
-/* ---------- 黄色遮罩：旧快照整屏上移 ---------- */
-::view-transition-old(root) {
-  animation: veil-lift .7s cubic-bezier(.76, 0, .24, 1) both;
+/* ================= TOKENS & PHYSICS CURVES ================= */
+:root {
+  --bg: #FFFFFF;
+  --paper: #F9F9F9;
+  --ink: #111111;
+  --accent: #FFDE00;
+  --muted: #A4A4A4;
+  --line: #E3E3E3;
+  --pre-bg: #E3E3E3;
+  --disp: 'Jost', 'Noto Sans SC', sans-serif;
+  --sans: 'Instrument Sans', 'Noto Sans SC', sans-serif;
+
+  /* Google Material 3 Expressive & Spring Physics Curves */
+  --ease: cubic-bezier(0.76, 0, 0.24, 1);                  /* 经典非对称机械阻尼（页面遮罩/转场） */
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1.0);           /* M3 Emphasized Decelerate（极速爆发+长尾平滑制动） */
+  --ease-in-out: cubic-bezier(0.3, 0, 0, 1);               /* M3 Standard Emphasized */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);             /* 灵动回弹（轻快过冲微交互） */
+  --spring-soft: cubic-bezier(0.22, 1.28, 0.36, 1);        /* 柔和弹性（卡片悬浮/组件抬升） */
+  --spring-snappy: cubic-bezier(0.175, 0.885, 0.32, 1.22); /* 干脆弹性（图标/徽章/按钮反馈） */
+
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --glow-x: 75%;
+  --glow-y: 50%;
+  --glow-x2: 15%;
+  --glow-y2: 75%;
 }
 
-/* 新页面直接呈现，不再叠一层淡入 */
+/* ================= RESET & BASE ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar { display: none; }
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+}
+body {
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+::selection {
+  background: var(--ink);
+  color: var(--accent);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font-family: inherit;
+}
+
+/* ================= VIEW TRANSITION RULES ================= */
+::view-transition-old(root) {
+  animation: veil-lift .68s var(--ease) both;
+}
 ::view-transition-new(root) {
   animation: none;
 }
-
 @keyframes veil-lift {
   from { transform: translateY(0); }
   to   { transform: translateY(-100%); }
 }
-
-/* 浏览器后退时反向向下让出 */
 html[data-nav="back"] ::view-transition-old(root) {
   animation-name: veil-drop;
 }
-
 @keyframes veil-drop {
   from { transform: translateY(0); }
   to   { transform: translateY(100%); }
 }
-
-/* ---------- 转场到达时：内容直接呈现 ----------
-   页面里的 .st 元素靠 body.revealed 做入场动画（最晚约 1.4s）。
-   如果让它在遮罩后面播，抬起遮罩时会看到半透明的卡片。
-   所以转场到达时直接给最终状态——遮罩抬起本身就是入场。 */
 body.vt-arrive .st {
   opacity: 1 !important;
+  transform: none !important;
   transition: none !important;
+}
+
+/* ================= PRELOADER ================= */
+#preloader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: var(--pre-bg);
+  align-items: center;
+  justify-content: center;
+  clip-path: circle(100% at 50% 50%);
+  transition: clip-path .95s var(--ease);
+  cursor: none;
+  pointer-events: none;
+}
+html.pre #preloader { display: flex; }
+html.pre #preloader.preloader-hide {
+  clip-path: circle(0px at var(--mouse-x, 50%) var(--mouse-y, 50%));
+}
+.preloader-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: -.02em;
+  animation: fadeLogo 4s ease-in-out infinite;
+}
+.preloader-logo .sq {
+  width: 22px;
+  height: 22px;
+  background: var(--ink);
+}
+@keyframes fadeLogo {
+  0%, 100% { opacity: .3; transform: scale(.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* ================= TRANSITION VEIL ================= */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: var(--accent);
+  transform: translateY(-101%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .68s var(--ease);
+  pointer-events: none;
+  will-change: transform;
+}
+.veil .veil-mark {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transform: translateY(-12px) scale(.95);
+  transition: transform .5s var(--spring-soft);
+}
+.veil .veil-mark .sq {
+  width: 20px;
+  height: 20px;
+  background: var(--ink);
+}
+html.js body.loading .veil,
+html.js body.leaving .veil {
+  transform: translateY(0);
+}
+html.js body.loading .veil .veil-mark,
+html.js body.leaving .veil .veil-mark {
+  transform: translateY(0) scale(1);
+}
+html.js body.leaving .veil {
+  transition-duration: .42s;
+}
+
+/* ================= CUSTOM CURSOR (CONVERGENCE FOCUS) ================= */
+.cursor-dot, .cursor-ring { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  html.js body,
+  html.js a,
+  html.js button,
+  html.js input {
+    cursor: none;
+  }
+  html.js .cursor-dot {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    margin-top: -4px;
+    z-index: 1000;
+    background: var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+    transition:
+      width .35s var(--spring),
+      height .35s var(--spring),
+      margin .35s var(--spring),
+      background-color .25s var(--ease-out),
+      border-radius .35s var(--spring);
+  }
+  html.js .cursor-ring {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    margin-left: -18px;
+    margin-top: -18px;
+    z-index: 999;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: .38;
+    background: transparent;
+    will-change: transform, width, height, margin;
+    transition:
+      width .42s var(--spring),
+      height .42s var(--spring),
+      margin .42s var(--spring),
+      opacity .3s var(--ease-out),
+      border-color .3s,
+      border-width .3s,
+      border-radius .42s var(--spring);
+  }
+  /* 悬停互动元素：不遮挡视线，外圈向中心弹性收敛锁定，中心点微扩高亮 */
+  html.js body.cursor-hover .cursor-ring {
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+    opacity: .92;
+    border-width: 2px;
+    border-color: var(--ink);
+    background: transparent;
+  }
+  html.js body.cursor-hover .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    background: var(--accent);
+    box-shadow: 0 0 0 1.5px var(--ink);
+  }
+  html.js body.cursor-down .cursor-ring {
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    transition-duration: .12s;
+  }
+}
+
+/* ================= BACKGROUND LAYERS ================= */
+.dot-matrix-bg {
+  position: fixed;
+  inset: -12%;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,.5) 1.5px, transparent 1.6px);
+  background-size: 34px 34px;
+  background-position: center;
+  opacity: .08;
+  animation: dotBreatheA 7.5s ease-in-out infinite;
+}
+.dot-matrix-bg.layer-2 {
+  background-image: radial-gradient(circle, rgba(0,0,0,.38) 1.1px, transparent 1.2px);
+  background-size: 23px 23px;
+  animation: dotBreatheB 11s ease-in-out infinite;
+}
+@keyframes dotBreatheA { 0%, 100% { opacity: .08; } 50% { opacity: .24; } }
+@keyframes dotBreatheB { 0%, 100% { opacity: .04; } 50% { opacity: .15; } }
+
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: .88;
+  background:
+    radial-gradient(circle 420px at var(--glow-x, 80%) var(--glow-y, 20%), rgba(255,222,0,.65) 0%, rgba(255,222,0,.28) 38%, rgba(255,222,0,0) 70%),
+    radial-gradient(circle 340px at var(--glow-x2, 15%) var(--glow-y2, 85%), rgba(255,222,0,.55) 0%, rgba(255,222,0,.22) 38%, rgba(255,222,0,0) 70%);
+}
+
+/* ================= PAGE MARKER ================= */
+.page-marker {
+  position: fixed;
+  right: 34px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 6vw, 5.2rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+  pointer-events: none;
+  user-select: none;
+  animation: breathe 3s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: .38; transform: translateY(-50%) scale(1); }
+  50% { opacity: .95; transform: translateY(-50%) scale(1.07); }
+}
+
+/* ================= NAV ================= */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 34px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.92), rgba(255,255,255,.75));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -.02em;
+  transition: transform .35s var(--spring);
+}
+.nav-logo:hover {
+  transform: scale(1.04);
+}
+.nav-logo .sq {
+  width: 15px;
+  height: 15px;
+  background: var(--ink);
+  position: relative;
+  transition: transform .45s var(--spring);
+}
+.nav-logo:hover .sq {
+  transform: rotate(90deg);
+}
+.nav-logo .sq::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  transition: transform .45s var(--spring);
+}
+.nav-logo:hover .sq::after {
+  transform: translate(-2px, -2px) scale(1.2);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-links a {
+  position: relative;
+  font-family: var(--disp);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition:
+    background-color .35s var(--ease-out),
+    color .35s var(--ease-out),
+    transform .35s var(--spring);
+}
+.nav-links a .no {
+  font-size: 9px;
+  color: var(--muted);
+  margin-right: 5px;
+  transition: color .35s, transform .35s var(--spring);
+  display: inline-block;
+}
+.nav-links a:hover {
+  background: var(--paper);
+  transform: translateY(-2px);
+}
+.nav-links a:hover .no {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.nav-links a:active {
+  transform: scale(.94);
+}
+.nav-links a.active {
+  background: var(--ink);
+  color: var(--bg);
+}
+.nav-links a.active .no {
+  color: var(--accent);
+}
+
+/* ================= ENTRANCE STAGGER (M3 EXPRESSIVE) ================= */
+.st {
+  opacity: 0;
+  transform: translateY(34px) scale(.985);
+}
+body.revealed .st {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity .75s var(--ease-out),
+    transform .85s var(--spring-soft);
+  transition-delay: calc(var(--i, 0) * 75ms + .06s);
+}
+
+/* ================= SHARED PAGE HEAD ================= */
+.page-head {
+  position: relative;
+  z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 150px 34px 40px;
+}
+.page-head .crumb {
+  font-family: var(--disp);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.page-head .crumb::after {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: var(--ink);
+  transform-origin: left;
+  transition: transform .5s var(--spring);
+}
+.page-head:hover .crumb::after {
+  transform: scaleX(1.35);
+}
+.page-head h1 {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: clamp(46px, 8vw, 104px);
+  line-height: .95;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  margin-top: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.page-head h1 .yd {
+  display: inline-block;
+  width: .14em;
+  height: .14em;
+  background: var(--accent);
+  border: 1.5px solid var(--ink);
+  transition: transform .5s var(--spring);
+}
+.page-head h1:hover .yd {
+  transform: rotate(45deg) scale(1.2);
+}
+.page-head h1 .cn {
+  font-size: clamp(18px, 2.4vw, 30px);
+  font-weight: 500;
+  color: #3a3a3a;
+  letter-spacing: .08em;
+}
+.page-head .sub {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #3a3a3a;
+  max-width: 560px;
+}
+
+/* ================= SHARED FOOTER ================= */
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 26px 34px;
+  border-top: 1.5px solid var(--ink);
+}
+.footer .f-col {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-family: var(--disp);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #3a3a3a;
+}
+.footer .f-col a {
+  transition: color .3s, transform .35s var(--spring);
+  display: inline-block;
+}
+.footer .f-col a:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2.5px;
+  text-underline-offset: 5px;
+}
+
+/* ================= SHARED RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .nav { padding: 14px 18px; }
+  .nav-links {
+    gap: 0;
+    overflow-x: auto;
+    max-width: 62vw;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    padding: 8px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .nav-links a .no { display: none; }
+  .page-head { padding: 120px 18px 30px; }
+  .page-marker { display: none; }
+  .footer {
+    padding: 22px 18px;
+    justify-content: center;
+    text-align: center;
+  }
+  .footer .f-col { justify-content: center; }
 }
 
 /* ---------- 尊重系统「减少动态效果」 ---------- */
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
+  *, *::before, *::after {
+    animation-duration: .01s !important;
+    transition-duration: .01s !important;
+  }
 }
